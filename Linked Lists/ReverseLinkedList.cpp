@@ -1,7 +1,7 @@
 #include<iostream>
 using namespace std;
 
-/**
+/**w
  * Definition for singly-linked list.
 
  */
