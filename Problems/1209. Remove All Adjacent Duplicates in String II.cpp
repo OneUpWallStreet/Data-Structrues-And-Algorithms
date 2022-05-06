@@ -1,7 +1,8 @@
 #include<iostream>
 #include<unordered_map>
-
+#include<unordered_map>
 using namespace std;
+
 
 
 // You are given a string s and an integer k, a k duplicate removal consists of choosing k adjacent and equal letters from s and removing them, causing the left and the right side of the deleted substring to concatenate together.
@@ -47,6 +48,9 @@ class Solution {
     public:
 
         string removeDuplicates(string s, int k) {
+
+
+            createHashMapOfString(s);
             
 
             if(doesContainDuplicates(s,k)==false){
@@ -54,6 +58,21 @@ class Solution {
             }
 
             return removeDuplicates(removeFirstDuplicateElements(s,k),k);
+
+        }
+
+        void createHashMapOfString(string s){
+
+            hashMap.erase(hashMap.begin(),hashMap.end());
+
+            for(int i=0;i<s.length();i++){
+                if(hashMap.find(s[i]) == hashMap.end()){
+                    hashMap[s[i]] = 1;
+                }
+                else{
+                    hashMap[s[i]] += 1;
+                }
+            }
 
         }
 
@@ -66,6 +85,7 @@ class Solution {
 
             for(int i=0;i<s.length();i++){
                 if(isDuplicateWithFreq(s,k,i)==true && foundFirstDupl == false){
+                    hashMap[s[i]] -= k;
                     i += k-1;
                     foundFirstDupl = true;
                     continue;
@@ -87,6 +107,11 @@ class Solution {
         }
 
         bool isDuplicateWithFreq(string s,int k,int index){
+
+            if(hashMap[s[index]] <  k){
+                return false;
+            }
+
             char charAtIndex = s[index];
             for(int i=index;i<index+k;i++){
                 if(s[i] == charAtIndex){
@@ -99,81 +124,19 @@ class Solution {
             return true;
         }
 
+    private:
+        unordered_map<char,int> hashMap;
+
         
 };
 
 
 int main(){
     Solution solution;
-    string input = ;
+    string input = "deeedbbcccbdaa";
     cout << input << endl;
     string answer = solution.removeDuplicates(input,3);
     cout << answer << endl;
     
 }
 
-
-
-            // for(int i=0;i<s.length();i++){
-                // if(isDuplicateWithFreq(s,k,i)){
-                    // s = removeKElements(s,k,i);
-                // }
-            // }
-
-
-
-            // for(int i =0;i<s.length();i++){
-                // if(isDuplicateWithFreq(s,k,i)==true){}
-            // }
-
-            // for(int i=0;i<s.length();i++){
-            //     if(isDuplicateWithFreq(s,k,i)){
-            //         i += k-1;
-            //         removeDuplicates(s,k);
-
-            //     }
-            // }
-
-            // return s;
-
-            
-            // string answer;
-
-            // for(int i=0;i<s.length();i++){
-            //     if(isDuplicateWithFreq(s,k,i)){
-            //         i += k-1; 
-            //         continue;
-            //     }
-            //     else{
-            //         answer.push_back(s[i]);
-            //     }
-            // }
-
-            // return answer;
-
-
-        //             string removeFirstDuplicateElements(string s,int k){
-
-        //     string newString;
-        //     bool foundFirstDupl = false;
-
-        //     for(int i=0;i<s.length();i++){
-
-        //         if(isDuplicateWithFreq(s,k,i)==true && foundFirstDupl == false){
-        //             i += k-1;
-        //             foundFirstDupl = true;
-        //             continue;
-        //         }
-                
-        //         newString.push_back(s[i]);
-
-        //         // if(i==index){
-        //         //     i += k-1;
-        //         // }
-        //         // else{
-        //         //     newString.push_back(s[i]);
-        //         // }
-        //     }
-
-        //     return newString;
-        // }
