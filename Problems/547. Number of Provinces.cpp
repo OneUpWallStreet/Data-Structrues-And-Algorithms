@@ -119,17 +119,9 @@ class Solution {
 };
 
 int main(){ 
-
     Solution solution;
-
     vector<vector<int>> input = {{1,1,0},{1,1,0},{0,0,1}};
-
     int answer = solution.findCircleNum(input);
-
     cout << "Answer: " << answer << endl;
-    // solution.findCircleNum()
-    
-
-
     return 0;
 }
