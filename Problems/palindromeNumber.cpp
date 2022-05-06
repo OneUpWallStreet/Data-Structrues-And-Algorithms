@@ -35,13 +35,8 @@ class Solution {
 };
 
 int main(){
-
-
     int num = 11211;
-
     Solution solution;
-
     bool answer = solution.isPalindrome(num);
-
     cout << "Answer: " << answer << endl;
 }
