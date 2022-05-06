@@ -1,6 +1,5 @@
 #include<iostream>
-#include<unordered_map>
-#include<unordered_map>
+#include<stack>
 using namespace std;
 
 
@@ -44,90 +43,43 @@ using namespace std;
 
 
 class Solution {
-
     public:
-
         string removeDuplicates(string s, int k) {
 
-
-            createHashMapOfString(s);
-            
-
-            if(doesContainDuplicates(s,k)==false){
+            if(s.length() == 0){
                 return s;
             }
 
-            return removeDuplicates(removeFirstDuplicateElements(s,k),k);
-
-        }
-
-        void createHashMapOfString(string s){
-
-            hashMap.erase(hashMap.begin(),hashMap.end());
-
             for(int i=0;i<s.length();i++){
-                if(hashMap.find(s[i]) == hashMap.end()){
-                    hashMap[s[i]] = 1;
+                
+                if(stack.empty() == false && stack.top().first == s[i]){
+                    stack.top().second++;
+                    if(stack.top().second==k){
+                        stack.pop();
+                    }
                 }
                 else{
-                    hashMap[s[i]] += 1;
-                }
+                    stack.push({s[i],1});
+                }                
             }
+
+            string answer;
+
+            while(stack.empty()==false){
+                while(stack.top().second != 0){
+                    answer.push_back(stack.top().first);
+                    stack.top().second -= 1;
+                }
+                stack.pop();
+            }
+
+            reverse(answer.begin(),answer.end());
+
+            return answer;
 
         }
-
-        
-
-        string removeFirstDuplicateElements(string s,int k){
-
-            string newString;
-            bool foundFirstDupl = false;
-
-            for(int i=0;i<s.length();i++){
-                if(isDuplicateWithFreq(s,k,i)==true && foundFirstDupl == false){
-                    hashMap[s[i]] -= k;
-                    i += k-1;
-                    foundFirstDupl = true;
-                    continue;
-                }
-                newString.push_back(s[i]);
-            }
-
-            return newString;
-        }
-
-        bool doesContainDuplicates(string s,int k){
-            for(int i=0;i<s.length();i++){
-                if(isDuplicateWithFreq(s,k,i) == true){
-                    return true;
-                }
-            }
-
-            return false;
-        }
-
-        bool isDuplicateWithFreq(string s,int k,int index){
-
-            if(hashMap[s[index]] <  k){
-                return false;
-            }
-
-            char charAtIndex = s[index];
-            for(int i=index;i<index+k;i++){
-                if(s[i] == charAtIndex){
-                    continue;
-                }
-                else{
-                    return false;
-                }
-            }
-            return true;
-        }
-
     private:
-        unordered_map<char,int> hashMap;
-
-        
+        stack<pair<char,int>> stack;
 };
 
 
