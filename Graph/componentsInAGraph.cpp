@@ -52,6 +52,9 @@ void printGraph(unordered_map<int,vector<int>> graph){
 }
 
 
+
+
+
 vector<int> componentsInGraph(vector<vector<int>> gb) {
 
     unordered_map<int,vector<int>> graph;
