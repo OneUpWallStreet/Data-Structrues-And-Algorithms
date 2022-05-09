@@ -65,10 +65,6 @@ class Solution {
                 }
             }
         }
-
-    private:
-        unordered_set<int> duplicate;
-        
 };
 
 int main(){
