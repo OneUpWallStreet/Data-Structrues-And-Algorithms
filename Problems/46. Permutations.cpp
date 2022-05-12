@@ -42,13 +42,19 @@ class Solution {
             }
 
             for(int i=0;i<nums.size();i++){
+                
                 int element = nums[0];
+
                 nums.erase(nums.begin());
+                
                 vector<vector<int>> perms = permute(nums);
+                
                 for(int j=0;j<perms.size();j++){
                     perms[j].push_back(element);
                     result.push_back(perms[j]);
+                
                 }
+                
                 nums.push_back(element);
                                 
             }
