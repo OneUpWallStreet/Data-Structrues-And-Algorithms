@@ -1,5 +1,4 @@
 #include<vector>
-#include<unordered_map>
 #include<unordered_set>
 #include<iostream>
 
@@ -22,20 +21,14 @@ class Solution {
                                 continue;
                             }
 
-                            // cout << " x: " << x << " and y: " << y << endl;
-
                             if(blockSet.find(board[x][y]) == blockSet.end()){
-                                // cout << "Inseting: " << board[x][y] << endl;
                                 blockSet.insert(board[x][y]);
                             }
                             else{
-                                // cout << "coordinates: " << " x: " << x << " y: " << y << endl;
-                                // cout << "Block set invalid: " << board[x][y] << endl;
                                 return false;
                             }
                         }
                     }
-
                 }
             }
 
@@ -55,7 +48,6 @@ class Solution {
                         rowSet.insert(board[i][j]);
                     }
                     else {
-                        cout << "Rows invalid at: " << i << " and " << j << endl;
                         return false;
                     }
                 }
@@ -76,7 +68,6 @@ class Solution {
                         colSet.insert(board[j][i]);
                     }
                     else{
-                        cout << "Columns invalid at: " << i << " and " << j << endl;
                         return false;
                     }
                 }   
@@ -85,8 +76,6 @@ class Solution {
         }
 
         bool isValidSudoku(vector<vector<char>>& board) {
-
-            // bool isValid = true;
 
             if( areRowsValid(board) == false || areColumnsValid(board) == false || areSubBlocksValid(board) == false){
                 return false;
@@ -112,10 +101,7 @@ int main(){
     {'.','.','.','.','.','.','.','.','.'}};
 
 
-    cout << "board size: " << board.size() << endl;
-
     bool answer = solution.isValidSudoku(board);    
-
     cout << "Answer is: " << answer << endl;
 
     
