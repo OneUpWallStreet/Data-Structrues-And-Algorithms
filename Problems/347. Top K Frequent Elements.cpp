@@ -2,11 +2,22 @@
 #include<vector>
 #include<unordered_map>
 
+
 using namespace std;
+
 
 
 class Solution {
     public:
+
+        void printPairVector(vector<pair<int,int>> input){
+            cout << "-> ";
+            for(int i=0;i<input.size();i++){
+                cout << " { " << input[i].first << " , " << input[i].second << " } ";
+            }
+            cout << endl;
+        }
+
         vector<int> topKFrequent(vector<int>& nums, int k) {
             
             vector<int> answer;
@@ -22,24 +33,30 @@ class Solution {
                 }
             }
 
+            vector<pair<int,int>> freqVector;
 
             for (auto& it: hashMap) {
-                // answer.push_back(it.first)
-                // if(it.second >= k){
-                //     answer.push_back(it.first);
-                // } 
+                freqVector.push_back({it.second,it.first});
             }
 
+            make_heap(freqVector.begin(),freqVector.end());
 
+            for(int i=0;i<k;i++){
+                answer.push_back(freqVector.front().second);
+                pop_heap(freqVector.begin(),freqVector.end());
+                freqVector.pop_back();
+            }
 
         return answer;
     }
+
+
 };
 
 void printVector(vector<int>& nums){
     cout << "-> ";
     for(int i=0;i<nums.size();i++){
-        cout << " " << nums[i] << " " << endl;
+        cout << " " << nums[i] << " ";
     }
     cout << endl;
 }
@@ -56,4 +73,4 @@ int main(){
 
     
 
-}
+}   
