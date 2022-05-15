@@ -9,36 +9,39 @@ using namespace std;
 
 class Solution {
     public:
-        int longestConsecutive(vector<int>& nums) {
 
+        int countSequence(vector<int>& nums,int num){
             int counter = 1;
-            int longest = 1;
-
-            unordered_set<int> used;
-
-            sort(nums.begin(),nums.end());
-
-
-            for(int i=0;i<nums.size();i++){
-                cout << "inserting: "<< nums[i] << endl;
-                mySet.insert(nums[i]);
-            }
-
-            for(int i=0;i<nums.size();i++){
-                
-                if(used.find(nums[i]) != used.end()){
-                    continue;
-                }
-
-                if(mySet.find(nums[i]+1) != mySet.end()){
-                    used.insert(nums[i]);
+            while(true){
+                if(mySet.find(num+1) != mySet.end()){
+                    num++;
                     counter++;
                 }
                 else{
-                    longest = max(counter,longest);
-                    counter = 1;
+                    return counter;
                 }
+            }
+        }
 
+        int longestConsecutive(vector<int>& nums) {
+
+            if(nums.size()==0){
+                return 0;
+            }
+
+            int longest = 1;
+
+            for(int i=0;i<nums.size();i++){
+                mySet.insert(nums[i]);
+            }
+
+            unordered_set<int> sequenceSet;
+
+            for(int i=0;i<nums.size();i++){
+                if(mySet.find(nums[i]-1) == mySet.end() && sequenceSet.find(nums[i]-1) == sequenceSet.end()){
+                    sequenceSet.insert(nums[i]-1);
+                    longest = max(countSequence(nums,nums[i]),longest);
+                }
             }
             
             return longest;
