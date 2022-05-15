@@ -13,17 +13,29 @@ class Solution {
             int j = height.size()-1;
 
             int maxArea =0;
-            int b;
 
-            for(int i=0;i<height.size();i++){
-                for(int j=i+1;j<height.size();j++){
-                    int h = min(height[i],height[j]);
-                    b = j-i;
-                    maxArea = max(maxArea,h*breath);
-                    
+
+            while(i<j){
+                
+                int line1 = height[i];
+                int line2 = height[j];
+
+                int b = j-i;
+                int h = min(line1,line2);
+
+                maxArea = max(h*b,maxArea);
+
+                if(line1<line2){
+                    i++;
                 }
+                else{
+                    j--;
+                }
+
+                
             }
-            
+
+
             return maxArea;
         }
 };
@@ -32,7 +44,8 @@ int main(){
 
     Solution solution;
 
-    vector<int> input = {1,8,6,2,5,4,8,3,7};
+    // vector<int> input = {1,8,6,2,5,4,8,3,7};
+    vector<int> input = {1,1};
 
     int answer = solution.maxArea(input);
 
