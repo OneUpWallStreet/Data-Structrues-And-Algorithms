@@ -14,32 +14,20 @@ class Solution {
 
             int maxArea =0;
 
-
             while(i<j){
-                
-                int line1 = height[i];
-                int line2 = height[j];
-
-                int b = j-i;
-                int h = min(line1,line2);
-
-                maxArea = max(h*b,maxArea);
-
-                if(line1<line2){
+                maxArea = max(min(height[i],height[j])*(j-i),maxArea);
+                if(height[i]<height[j]){
                     i++;
                 }
                 else{
                     j--;
-                }
-
-                
+                }                
             }
 
 
             return maxArea;
         }
 };
-
 int main(){
 
     Solution solution;
