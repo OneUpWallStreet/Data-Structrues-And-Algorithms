@@ -39,7 +39,6 @@ class Solution {
 
             return {balanced,1+ max(left.height,right.height)};
 
-
         }
 
         bool isBalanced(TreeNode* root) {
