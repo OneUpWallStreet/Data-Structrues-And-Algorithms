@@ -11,11 +11,9 @@ class Solution {
             int sum = 0;
 
             for(int i=0;i<nums.size();i++){
+                int currentSum = 0;
                 for(int j=i;j<nums.size();j++){
-                    int currentSum = 0;
-                    for(int k=i; k<j;k++){
-                        currentSum += nums[k];
-                    }
+                    currentSum += nums[j]; 
                     sum = max(sum,currentSum);
                 }
 
