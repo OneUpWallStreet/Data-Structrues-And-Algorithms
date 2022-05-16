@@ -16,7 +16,7 @@ struct pair_hash {
 class Solution {
     public:
 
-        void breathFirstSearch(){
+        void breathFirstSearch(vector<vector<int>>& grid){
 
             pair<int,int> node = {0,0};
             alreadyVisited.insert(node);
@@ -31,8 +31,6 @@ class Solution {
                 int x = q.front().first.first;
                 int y = q.front().first.second;
 
-                cout << " At Node: { " << x << " , " << y << " }" << endl;
-
                 int distance = q.front().second;
 
                 if( q.front().first == finalNode){
@@ -43,7 +41,7 @@ class Solution {
 
                 q.pop();
 
-                vector<pair<int,int>> validPaths = getValidPathsForNode({x,y}); 
+                vector<pair<int,int>> validPaths = getValidPathsForNode({x,y},grid); 
 
                 for(int i=0;i<validPaths.size();i++){
                     if(alreadyVisited.find(validPaths[i]) == alreadyVisited.end()){
@@ -65,13 +63,13 @@ class Solution {
             finalNode = {grid.size()-1,grid.size()-1};
             graph = grid;
 
-            depthFirstSearch();
+            breathFirstSearch(grid);
             
             
             return pathLength;
         }
 
-        vector<pair<int,int>> getValidPathsForNode(pair<int,int> node){
+        vector<pair<int,int>> getValidPathsForNode(pair<int,int> node,vector<vector<int>>& graph){
 
             vector<pair<int,int>> paths;
 
