@@ -2,6 +2,7 @@
 #include<stack>
 #include<unordered_set>
 #include<stack>
+#include<queue>
 #include<iostream>
 
 using namespace std;
@@ -15,40 +16,39 @@ struct pair_hash {
 class Solution {
     public:
 
-        void depthFirstSearch(){
+        void breathFirstSearch(){
 
             pair<int,int> node = {0,0};
             alreadyVisited.insert(node);
 
 
-            stack<pair<pair<int,int>,int>> s;
+            queue<pair<pair<int,int>,int>> q;
 
-            s.push({node,1});
+            q.push({node,1});
 
-            while(s.size()>0){
+            while(q.size()>0){
 
-                int x = s.top().first.first;
-                int y = s.top().first.second;
+                int x = q.front().first.first;
+                int y = q.front().first.second;
 
-                int distance = s.top().second;
+                cout << " At Node: { " << x << " , " << y << " }" << endl;
 
-                cout << "visited node: { " << x << " , " << y << " }" << endl;
+                int distance = q.front().second;
 
-                if( s.top().first == finalNode){
-                    cout << "Final Node Found" << endl;
-                    cout << "distance: " << distance << endl;
-                    // break;
+                if( q.front().first == finalNode){
+                    pathLength = distance;
+                    break;
                 }
                 
 
-                s.pop();
+                q.pop();
 
                 vector<pair<int,int>> validPaths = getValidPathsForNode({x,y}); 
 
                 for(int i=0;i<validPaths.size();i++){
                     if(alreadyVisited.find(validPaths[i]) == alreadyVisited.end()){
                         alreadyVisited.insert(validPaths[i]);
-                        s.push({validPaths[i],distance+1});
+                        q.push({validPaths[i],distance+1});
                     }
                 }
             }
@@ -57,6 +57,10 @@ class Solution {
         }
 
         int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+
+            if(grid[0][0] == 1 || grid[grid.size()-1][grid.size()-1] == 1){
+                return -1;
+            }
 
             finalNode = {grid.size()-1,grid.size()-1};
             graph = grid;
@@ -75,7 +79,7 @@ class Solution {
             int y = node.second;
 
             // right
-            if(y+1<=finalNode.second && graph[x][y] == 0){
+            if(y+1<=finalNode.second && graph[x][y+1] == 0){
                 paths.push_back({x,y+1});
             }
 
@@ -130,7 +134,7 @@ int main(){
 
     Solution solution;
 
-    vector<vector<int>> input =  {{0,0,0},{1,1,0},{1,1,0}};
+    vector<vector<int>> input =  {{0,1,1,0,0,0},{0,1,0,1,1,0},{0,1,1,0,1,0},{0,0,0,1,1,0},{1,1,1,1,1,0},{1,1,1,1,1,0}};
 
     int answer = solution.shortestPathBinaryMatrix(input);
 

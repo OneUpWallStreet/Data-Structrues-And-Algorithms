@@ -13,7 +13,6 @@ class Solution {
                 return 1;
             }
 
-
 			// Initialise pointer towards end
 			// of string
             int j = s.length()-1;
