@@ -14,36 +14,23 @@ class Solution {
 
                 int mid = left + (right - left) /2;
 
-                cout << endl;
-                cout << "mid: " << mid << " val: " << nums[mid] << " target: " << target << endl;
-                cout << "Right: " << right << " And Left: " << left << endl;
-                cout << endl;
-
-
                 if(nums[mid]==target){
                     return mid;
                 }
 
-
-                if(target>nums[mid]){
-
-                    if(target > nums[mid]){
-                        return binarySearch(nums,target,mid+1,right);
-                    }
-                    else{
+                // Rotation Exists, we are in left portion
+                if(nums[mid] > nums[right]){
+                    if(target < nums[mid] && target >= nums[left]){
                         return binarySearch(nums,target,left,mid-1);
                     }
-
-                    // if(target > nums[right]){
-                    //     return binarySearch(nums,target,left,mid-1);
-                    // }
-                    // else{   
-                    //     return binarySearch(nums,target,mid+1,right);
-                    // }
+                    else{
+                        return binarySearch(nums,target,mid+1,right);
+                    }
                 }
-                if(target<nums[mid]){
-
-                    if(target < nums[left]){
+                
+                // Rotation exists we are in the right side
+                else if (nums[mid] < nums[left]){
+                    if(target > nums[mid] && target <= nums[right]){
                         return binarySearch(nums,target,mid+1,right);
                     }
                     else{
@@ -51,6 +38,15 @@ class Solution {
                     }
                 }
 
+                // Normal binary search
+                else{
+                    if(target< nums[mid]){
+                        return binarySearch(nums,target,left,mid-1);
+                    }   
+                    else{
+                        return binarySearch(nums,target,mid+1,right);
+                    }
+                }
 
             }
 
@@ -78,9 +74,7 @@ int main(){
 
     vector<int> input = {4,5,6,7,8,1,2,3};
 
-
     printVector(input);
-
 
     int answer = solution.search(input,8);
 
