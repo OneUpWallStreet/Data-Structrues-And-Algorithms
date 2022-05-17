@@ -10,24 +10,31 @@ class Solution {
         void moveZeroes(vector<int>& nums) {
 
 
-            int i =0;
+            int i;
             int j = nums.size()-1;
 
-            
+            for(int k = nums.size()-1;k>=0;k--){
+                if(nums[k] == 0){
+                    i = k;
+                    break;
+                }
+            }
 
-            while(i<j){
+
+            while(i >= 0 && j >= 0){
 
                 if(nums[j] == 0){
                     j--;
                     continue;
                 } 
 
+                swap(nums[i],nums[j]);
+
                 if(nums[i] == 0){
-                    swap(nums[i],nums[j]);
                     j--;
                 }
-
-                i++;
+    
+                i--;
 
             }
 
@@ -49,8 +56,8 @@ int main(){
 
     Solution solution;
 
-    vector<int> input = {0,1,0,3,12};
-    // vector<int> input = {0,2,3,4};
+    // vector<int> input = {0,1,0,3,12};
+    vector<int> input = {0,2,3,4};
 
 
     
