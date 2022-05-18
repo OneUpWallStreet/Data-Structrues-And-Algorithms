@@ -26,8 +26,6 @@ class Solution {
                     return binarySearch(nums,target,mid+1,right);
                 }
 
-
-
             }
 
         return left;
