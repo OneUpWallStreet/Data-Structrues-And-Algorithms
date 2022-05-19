@@ -27,16 +27,26 @@ class Solution {
         }
 
         int longestIncreasingPath(vector<vector<int>>& matrix) {
-
-
+            
             noOfRows = matrix.size();
             noOfColumns = matrix[0].size();
 
+
+            initValueMatrix();
+
             for(int i=0;i<matrix.size();i++){
                 for(int j=0;j<matrix[i].size();j++){
-                    unordered_set< pair<int,int>,pair_hash> alreadyVisited;
-                    depthFirstSearch(matrix,{i,j},{},alreadyVisited);
-                    // breathFirstSearch(matrix,{i,j});
+                    if(valueMatrix[i][j] == -1){
+                        depthFirstSearch(matrix,{i,j},{});
+                    }
+                }
+            }
+
+
+            for(int i=0;i<valueMatrix.size();i++){
+                printVector(valueMatrix[i]);   
+                for(int j=0;j<valueMatrix.size();j++){
+                    longestPath = max(longestPath,valueMatrix[i][j]);
                 }
             }
 
@@ -44,10 +54,25 @@ class Solution {
         }
     private:
 
+        vector<vector<int>> valueMatrix;
+        int longestPath = 0;
+        int noOfRows;
+        int noOfColumns;
+    
+
+        void initValueMatrix(){
+            vector<vector<int>> matrix(noOfRows, vector<int>(noOfColumns));
+                for(int i=0;i<noOfRows;i++){
+                    for(int j=0;j<noOfColumns;j++){
+                        matrix[i][j] = -1;
+                    }
+                }
+            valueMatrix = matrix;
+        }
+
         vector<Node> fetchValidNodes(vector<vector<int>>& matrix, Node node){
             
             vector<Node> validNodes;
-
 
             // Go Left
             if(node.y-1>=0 && matrix[node.x][node.y-1] > matrix[node.x][node.y]){
@@ -69,66 +94,31 @@ class Solution {
                 validNodes.push_back({node.x+1,node.y});
             }
             
-            
-
             return validNodes;
 
         }
 
-        void breathFirstSearch(vector<vector<int>>& matrix, Node node){
-
-            queue<pair<Node,vector<int>>> q;
-
-            q.push({node,{}});
-
-            while(q.size()>0){
-
-                Node current = q.front().first;
-                vector<int> path = q.front().second;
-
-                q.pop();                
-                
-                vector<Node> validNodes = fetchValidNodes(matrix,current);
-
-                path.push_back(matrix[current.x][current.y]);
-
-                int currentPathSize = path.size();
-
-                longestPath = max(longestPath,currentPathSize);
-
-
-                for(int i=0;i<validNodes.size();i++){
-                    q.push({validNodes[i],path});
-                }
-
-
-            }
-
-
-
-        }
-
-        void depthFirstSearch(vector<vector<int>>& matrix, Node node,vector<int> path,unordered_set< pair<int,int>,pair_hash> alreadyVisited){ 
+        void depthFirstSearch(vector<vector<int>>& matrix, Node node,vector<int> path){ 
 
             vector<Node> validNodes = fetchValidNodes(matrix,node);
             path.push_back(matrix[node.x][node.y]); 
 
-            if(validNodes.size()==0){
-                int currentPathLength = path.size();
-                longestPath = max(longestPath,currentPathLength);
-                return;
-            }
+            int currentPathLength = path.size();
 
+            valueMatrix[node.x][node.y] = max(currentPathLength,valueMatrix[node.x][node.y]);
 
             for(int i=0;i<validNodes.size();i++){
-                    depthFirstSearch(matrix,validNodes[i],path,alreadyVisited);
+                if(valueMatrix[validNodes[i].x][validNodes[i].y] == -1){
+                    depthFirstSearch(matrix,validNodes[i],path);
+                    // valueMatrix[node.x][node.y] = max(currentPathLength+valueMatrix[validNodes[i].x][validNodes[i].y],valueMatrix[node.x][node.y]);
+                }
+                else{
+                    valueMatrix[node.x][node.y] = max(currentPathLength+valueMatrix[validNodes[i].x][validNodes[i].y],valueMatrix[node.x][node.y]);
+                }
             }
         }
 
-        int longestPath = 0;
-        int noOfRows;
-        int noOfColumns;
-    
+
 };
 
 // Input: matrix = [[9,9,4],[6,6,8],[2,1,1]]
@@ -139,8 +129,8 @@ int main(){
     Solution solution;
 // [[7,6,1,1],[2,7,6,0],[1,3,5,1],[6,6,3,2]]
 
-    // vector<vector<int>> input = {{7,6,1,1}, {2,7,6,0}, {1,3,5,1}, {6,6,3,2}};
-    vector<vector<int>> input = {{9,9,4},{6,6,8},{2,1,1}};
+    vector<vector<int>> input = {{7,6,1,1}, {2,7,6,0}, {1,3,5,1}, {6,6,3,2}};
+    // vector<vector<int>> input = {{9,9,4},{6,6,8},{2,1,1}};
 
     int answer = solution.longestIncreasingPath(input);
 
