@@ -12,15 +12,6 @@ class TreeNode {
       }
 }
 
-class TreeNodeAndDepth {
-    TreeNode node;
-    int depth;
-
-    TreeNodeAndDepth(TreeNode node, int depth){
-        this.depth = depth;
-        this.node = node;
-    }
-}
 
 class Solution {
     private int depthFirstTraversal(TreeNode node,int currentDepth){
