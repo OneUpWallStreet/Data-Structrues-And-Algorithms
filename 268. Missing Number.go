@@ -2,7 +2,11 @@ package main
 
 import (
 	"fmt"
+	"sort"
 )
+
+// Time - O(n)
+// Space - O(n)
 
 func missingNumber(nums []int) int {
 	n := len(nums)
@@ -14,6 +18,22 @@ func missingNumber(nums []int) int {
 		if set[i] == false {
 			return i
 		}
+	}
+	return n
+}
+
+// Time - O(nlogn)
+// Space - O(1)
+
+func missingNumber2(nums []int) int {
+	sort.Ints(nums)
+	n := len(nums)
+	checker := 0
+	for i := 0; i < n; i++ {
+		if nums[i] != checker {
+			return i
+		}
+		checker++
 	}
 	return n
 }
