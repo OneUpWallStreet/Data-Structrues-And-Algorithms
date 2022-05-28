@@ -7,7 +7,6 @@ class Solution {
     private HashMap<Integer,Integer> cache = new HashMap<>();
 
 
-
     private int depthFirstTraversal(int[] nums,int index,int currentValue, int pathCount){
 
         if(cache.containsKey(index)){
