@@ -9,9 +9,7 @@ type Node struct {
 	y int
 }
 
-var alreadyVisited = map[Node]bool{}
-
-func nextValidNodes(image *[][]int, node Node, oldColor int) []Node {
+func nextValidNodes(image *[][]int, node Node, oldColor int, alreadyVisited map[Node]bool) []Node {
 
 	var validNodes []Node
 
@@ -39,11 +37,11 @@ func nextValidNodes(image *[][]int, node Node, oldColor int) []Node {
 
 }
 
-func depthFirstSearch(image *[][]int, node Node, oldColor int, newColor int) {
+func depthFirstSearch(image *[][]int, node Node, oldColor int, newColor int, alreadyVisited map[Node]bool) {
 
 	(*image)[node.x][node.y] = newColor
 
-	nextNodes := nextValidNodes(image, node, oldColor)
+	nextNodes := nextValidNodes(image, node, oldColor, alreadyVisited)
 	alreadyVisited[node] = true
 
 	if len(nextNodes) == 0 {
@@ -51,13 +49,13 @@ func depthFirstSearch(image *[][]int, node Node, oldColor int, newColor int) {
 	}
 
 	for i := 0; i < len(nextNodes); i++ {
-		depthFirstSearch(image, nextNodes[i], oldColor, newColor)
+		depthFirstSearch(image, nextNodes[i], oldColor, newColor, alreadyVisited)
 	}
 
 }
 
 func floodFill(image [][]int, sr int, sc int, newColor int) [][]int {
-	depthFirstSearch(&image, Node{sr, sc}, image[sr][sc], newColor)
+	depthFirstSearch(&image, Node{sr, sc}, image[sr][sc], newColor, map[Node]bool{})
 	return image
 }
 
