@@ -35,10 +35,12 @@ func depthFirstTraversal(node *TreeNode, depth int) int {
 }
 
 func checkTreeBalance(node *TreeNode, depth int, maxDepth int) bool {
-	depth++
+
 	if node == nil {
-		return true
-	} else if node.Left == nil && node.Right == nil {
+		return (depth == maxDepth || depth == maxDepth-1)
+	}
+	depth++
+	if node.Left == nil && node.Right == nil {
 		return (depth == maxDepth || depth == maxDepth-1)
 	}
 	return (checkTreeBalance(node.Left, depth, maxDepth) && checkTreeBalance(node.Right, depth, maxDepth))
