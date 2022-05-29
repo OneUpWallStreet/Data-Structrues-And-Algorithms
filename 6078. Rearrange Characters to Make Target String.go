@@ -39,13 +39,8 @@ out:
 }
 
 func main() {
-
 	s := "ilovecodingonleetcode"
 	target := "code"
-
 	answer := rearrangeCharacters(s, target)
-
 	fmt.Println("Answer is: ", answer)
-
-	fmt.Println("Hello World")
 }
