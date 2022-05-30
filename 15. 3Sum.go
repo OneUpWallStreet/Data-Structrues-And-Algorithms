@@ -10,21 +10,31 @@ type ValPair struct {
 	v2 int
 }
 
-func twoSum(nums []int, start, end, target int) (bool, ValPair) {
+func twoSum(nums []int, result [][]int, start, end, target int, resultSet map[[3]int]bool) [][]int {
 
 	i := start
 	j := end
 
 	for i < j {
 		if nums[i]+nums[j] == target {
-			return true, ValPair{nums[i], nums[j]}
+
+			valArray := [3]int{-target, nums[i], nums[j]}
+			sort.Ints(valArray[:])
+			if _, didFind := resultSet[valArray]; !didFind {
+				result = append(result, []int{valArray[0], valArray[1], valArray[2]})
+				resultSet[valArray] = true
+			}
+			i++
+			for nums[i] == nums[i-1] && i < j {
+				i++
+			}
 		} else if nums[i]+nums[j] < target {
 			i++
 		} else if nums[i]+nums[j] > target {
 			j--
 		}
 	}
-	return false, ValPair{-1, -1}
+	return result
 
 }
 
@@ -35,17 +45,7 @@ func threeSum(nums []int) [][]int {
 	resultSet := map[[3]int]bool{}
 
 	for i := 0; i < len(nums); i++ {
-		didFind, valPair := twoSum(nums, i+1, len(nums)-1, -nums[i])
-		if didFind {
-			valArray := [3]int{nums[i], valPair.v1, valPair.v2}
-			sort.Ints(valArray[:])
-			if _, didFind := resultSet[valArray]; didFind {
-				continue
-			} else {
-				result = append(result, []int{nums[i], valPair.v1, valPair.v2})
-				resultSet[valArray] = true
-			}
-		}
+		result = twoSum(nums, result, i+1, len(nums)-1, -nums[i], resultSet)
 	}
 
 	return result
