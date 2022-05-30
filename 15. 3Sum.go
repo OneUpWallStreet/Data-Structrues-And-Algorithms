@@ -5,72 +5,54 @@ import (
 	"sort"
 )
 
-func addToResult(result [][]int, resultHash map[[3]int]bool, n1, n2, n3 int) [][]int {
-	if _, didFind := resultHash[[3]int{n1, n2, n3}]; didFind {
-		return result
-	} else {
-		newRes := []int{n1, n2, n3}
-		result = append(result, newRes)
-		resultHash[[3]int{n1, n2, n3}] = true
+type ValPair struct {
+	v1 int
+	v2 int
+}
+
+func twoSum(nums []int, start, end, target int) (bool, ValPair) {
+
+	i := start
+	j := end
+
+	for i < j {
+		if nums[i]+nums[j] == target {
+			return true, ValPair{nums[i], nums[j]}
+		} else if nums[i]+nums[j] < target {
+			i++
+		} else if nums[i]+nums[j] > target {
+			j--
+		}
 	}
-	return result
+	return false, ValPair{-1, -1}
+
 }
 
 func threeSum(nums []int) [][]int {
-
 	sort.Ints(nums)
-	resultHash := map[[3]int]bool{}
-
-	freqMap := map[int]int{}
-
-	// Loop through array and store all the values,
-	// with their freq
-	for i := 0; i < len(nums); i++ {
-		if _, didFind := freqMap[nums[i]]; didFind {
-			freqMap[nums[i]]++
-		} else {
-			freqMap[nums[i]] = 1
-		}
-	}
-
-	i := 0
-	j := len(nums) - 1
-
 	result := [][]int{}
 
-	for i < j {
-		sum := nums[i] + nums[j]
+	resultSet := map[[3]int]bool{}
 
-		fmt.Printf("i : %v j: %v & sum: %v \n", nums[i], nums[j], sum)
-
-		// if sum+nums[i]+nums[j] == 0 {
-		if _, didFind := freqMap[sum]; didFind {
-			if sum == nums[i] || sum == nums[j] {
-				if freqMap[nums[i]] > 1 {
-					newValues := [3]int{nums[i], nums[j], sum}
-					sort.Ints(newValues[:])
-					result = addToResult(result, resultHash, newValues[0], newValues[1], newValues[2])
-				}
+	for i := 0; i < len(nums); i++ {
+		didFind, valPair := twoSum(nums, i+1, len(nums)-1, -nums[i])
+		if didFind {
+			valArray := [3]int{nums[i], valPair.v1, valPair.v2}
+			sort.Ints(valArray[:])
+			if _, didFind := resultSet[valArray]; didFind {
+				continue
 			} else {
-				newValues := [3]int{nums[i], nums[j], sum}
-				sort.Ints(newValues[:])
-				result = addToResult(result, resultHash, newValues[0], newValues[1], newValues[2])
+				result = append(result, []int{nums[i], valPair.v1, valPair.v2})
+				resultSet[valArray] = true
 			}
 		}
-		// }
-
-		if nums[i] < sum {
-			i++
-		} else {
-			j--
-		}
-
 	}
 
 	return result
 }
 
 func main() {
+
 	input := []int{-1, 0, 1, 2, -1, -4}
 	answer := threeSum(input)
 	fmt.Println(answer)
