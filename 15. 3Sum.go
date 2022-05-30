@@ -5,11 +5,6 @@ import (
 	"sort"
 )
 
-type ValPair struct {
-	v1 int
-	v2 int
-}
-
 func twoSum(nums []int, result [][]int, start, end, target int, resultSet map[[3]int]bool) [][]int {
 
 	i := start
@@ -43,9 +38,13 @@ func threeSum(nums []int) [][]int {
 	result := [][]int{}
 
 	resultSet := map[[3]int]bool{}
-
-	for i := 0; i < len(nums); i++ {
+	i := 0
+	for i < len(nums) {
 		result = twoSum(nums, result, i+1, len(nums)-1, -nums[i], resultSet)
+		i++
+		for i < len(nums) && nums[i] == nums[i-1] {
+			i++
+		}
 	}
 
 	return result
