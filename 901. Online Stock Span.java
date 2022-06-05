@@ -1,10 +1,9 @@
-import java.util.Stack;
-
+import java.util.ArrayList;
 
 class StockSpanner {
 
-    Stack<Integer> stack = new Stack<>();
-    Stack<Integer> duplicateStack = new Stack<>();
+    ArrayList<Integer> data = new ArrayList<>();
+    int index = -1;
 
     public StockSpanner() {}
 
@@ -12,25 +11,23 @@ class StockSpanner {
 
         int counter = 1;
 
-        if(stack.isEmpty()){
-            stack.push(price);
+        if(index==-1){
+            data.add(price);
+            index++;
             return counter;
         }
 
-        duplicateStack = (Stack<Integer>) stack.clone();
-
-        while(!duplicateStack.isEmpty()){
-            if(duplicateStack.pop()<=price){
+        for(int i=index;i>=0;i--){
+            if(data.get(i)<=price){
                 counter++;
+                continue;
             }
-            else{
-                break;
-            }
+            break;
         }
 
-        stack.push(price);
+        index++;
+        data.add(price);
 
         return counter;
     }
 }
-
