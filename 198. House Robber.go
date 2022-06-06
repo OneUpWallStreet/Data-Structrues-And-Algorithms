@@ -11,29 +11,50 @@ func max(x, y int) int {
 	return y
 }
 
-func bruteForceSolution(index, loot int, nums []int) int {
+func dynamicProgrammingSolution(index, loot int, nums []int, cache map[int]int) int {
 
 	loot += nums[index]
 
-	if index == len(nums)-1 {
-		return loot
+	// fmt.Println(loot)
+
+	if _, didFind := cache[index]; didFind {
+		// fmt.Printf("cache Val: %v and loot val: %v  and index: %v \n", cache[index], loot, index)
+		return cache[index]
 	}
+
+	// if index == len(nums)-1 {
+	// 	cache[index] = loot
+	// 	return loot
+	// }
 
 	maxVal := loot
-
 	for i := index + 2; i < len(nums); i++ {
-		maxVal = max(maxVal, bruteForceSolution(i, loot, nums))
+		maxVal = max(maxVal, dynamicProgrammingSolution(i, loot, nums, cache))
 	}
 
+	cache[index] = maxVal
 	return maxVal
+}
+
+func printCache(cache map[int]int) {
+	fmt.Println()
+
+	for key, val := range cache {
+		fmt.Printf("key: %v and Val: %v \n", key, val)
+	}
+	fmt.Println()
 
 }
 
 func rob(nums []int) int {
 	var loot int
-	for i := 0; i < len(nums); i++ {
-		loot = max(loot, bruteForceSolution(i, 0, nums))
+	cache := map[int]int{}
+	for i := len(nums) - 1; i >= 0; i-- {
+		// fmt.Println("\n root index: ", i)
+		loot = max(loot, dynamicProgrammingSolution(i, 0, nums, cache))
+		printCache(cache)
 	}
+
 	return loot
 }
 
