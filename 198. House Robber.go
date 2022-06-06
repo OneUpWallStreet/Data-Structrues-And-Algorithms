@@ -11,48 +11,21 @@ func max(x, y int) int {
 	return y
 }
 
-func dynamicProgrammingSolution(index, loot int, nums []int, cache map[int]int) int {
-
-	loot += nums[index]
+func dynamicProgrammingSolution(index int, nums []int, cache map[int]int) int {
+	if index >= len(nums) {
+		return 0
+	}
 
 	if _, didFind := cache[index]; didFind {
 		return cache[index]
 	}
 
-	if index >= len(nums) {
-
-	}
-
-	maxVal := loot
-	for i := index + 2; i < len(nums); i++ {
-		maxVal = max(maxVal, dynamicProgrammingSolution(i, loot, nums, cache))
-	}
-
-	cache[index] = maxVal
-
-	return maxVal
+	cache[index] = max(dynamicProgrammingSolution(index+1, nums, cache), nums[index]+dynamicProgrammingSolution(index+2, nums, cache))
+	return cache[index]
 }
 
 func rob(nums []int) int {
-	var loot int
-	cache := map[int]int{}
-	for i := 0; i < len(nums); i++ {
-		loot = max(loot, dynamicProgrammingSolution(i, 0, nums, cache))
-	}
-
-	printCache(cache)
-
-	return loot
-}
-
-func printCache(cache map[int]int) {
-	fmt.Println()
-
-	for key, val := range cache {
-		fmt.Printf("key: %v and Val: %v \n", key, val)
-	}
-	fmt.Println()
-
+	return dynamicProgrammingSolution(0, nums, map[int]int{})
 }
 
 func main() {
