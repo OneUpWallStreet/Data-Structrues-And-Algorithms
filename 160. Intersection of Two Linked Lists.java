@@ -11,6 +11,8 @@ class ListNode {
 
 class Solution {
 
+    // O(m+n) Time & Space Space Compleixty
+
     private Stack<ListNode> s1 = new Stack<>();
     private Stack<ListNode> s2=  new Stack<>();
 
@@ -39,5 +41,58 @@ class Solution {
             s2.pop();
         }
         return inter;
+    }
+
+
+    // Code below is for solution, which runs in O(m+n) time complexity
+    // & constant memory i.e. O(1)
+
+    private int countLinkedListLength(ListNode head){
+        int counter  = 0;
+        ListNode cur = head;
+        while(cur!=null){
+            counter++;
+            cur = cur.next;
+        }
+        return counter;
+    }
+
+    private ListNode returnAdjustedHead(ListNode head, int n){
+        ListNode cur = head;
+        while(n!=0 && cur!=null){
+            n--;
+            cur = cur.next;
+        }
+        return  cur;
+    }
+
+
+    public ListNode getIntersectionNodeConstantMemory(ListNode headA, ListNode headB) {
+
+        ListNode inter = null;
+        int lA = countLinkedListLength(headA);
+        int lB = countLinkedListLength(headB);
+
+        ListNode curA = headA;
+        ListNode curB = headB;
+
+        if(lA>lB){
+            curA = returnAdjustedHead(headA,lA-lB);
+        } else if (lB>lA) {
+            curB = returnAdjustedHead(headB,lB-lA);
+        }
+
+
+        while (curA!=null && curB!=null){
+            if(curA==curB){
+                inter = curA;
+                break;
+            }
+            curA = curA.next;
+            curB = curB.next;
+        }
+
+        return inter;
+
     }
 }
