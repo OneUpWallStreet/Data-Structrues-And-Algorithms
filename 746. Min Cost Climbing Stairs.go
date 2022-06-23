@@ -16,30 +16,25 @@ func didHitCostCache(cache map[int]int, index int) bool {
 	return didFind
 }
 
-func recursiveClimbing(cost []int, index, costSum int) int {
-
-	if didHitCostCache(costCache, index) {
+func recursiveClimbing(cost []int, index int) int {
+	if index < 0 {
+		return 0
+	} else if didHitCostCache(costCache, index) {
 		return costCache[index]
-	} else if index >= len(cost) {
-		return costSum
+	} else if index <= 0 || index == 1 {
+		return cost[index]
 	}
-
-	costSum += cost[index]
-	costCache[index] = min(recursiveClimbing(cost, index+1, costSum), recursiveClimbing(cost, index+2, costSum))
+	costCache[index] = cost[index] + min(recursiveClimbing(cost, index-1), recursiveClimbing(cost, index-2))
 	return costCache[index]
-
 }
 
 func minCostClimbingStairs(cost []int) int {
 	costCache = map[int]int{}
-	return min(recursiveClimbing(cost, 0, 0), recursiveClimbing(cost, 1, 0))
+	return min(recursiveClimbing(cost, len(cost)-1), recursiveClimbing(cost, len(cost)-2))
 }
 
 func main() {
-
 	cost := []int{1, 100, 1, 1, 1, 100, 1, 1, 100, 1}
 	answer := minCostClimbingStairs(cost)
-
 	fmt.Println("Answer: ", answer)
-
 }
