@@ -1,36 +1,31 @@
 class Solution {
     
-    
     var result: Array<Array<Int>> = []
     var nums: Array<Int> = []
-    var set = Set<Array<Int>>()
     
+    var array: Array<Int> = []
     
-    func backtrackingDFS(_ index: Int,_ array: Array<Int>) {
-        
-        if !set.contains(array){
-            set.insert(array)
-            result.append(array)
-        }
+    func backtrackingDFS(_ index: Int) {
         
         if index >= nums.count {
+            result.append(array)
             return
         }
         
-        // Use The current element
-        var newArray = array
-        newArray.append(nums[index])
-        backtrackingDFS(index+1,newArray)
+        array.append(nums[index])
         
-        // Backtrack
-        newArray.popLast()
-        backtrackingDFS(index+1,newArray)
+        // Use The current element
+        backtrackingDFS(index+1)
+		
+		// Backtrack
+        array.popLast()
+        backtrackingDFS(index+1)
         
     }
     
     func subsets(_ nums: Array<Int>) -> Array<Array<Int>> {
         self.nums = nums
-        backtrackingDFS(0, [])
+        backtrackingDFS(0)
         return result
     }
 }
