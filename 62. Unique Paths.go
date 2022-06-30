@@ -3,8 +3,6 @@ package main
 import "fmt"
 
 var cache map[Cell]int
-var totalCols int
-var totalRows int
 
 type Cell struct {
 	x, y int
@@ -15,53 +13,27 @@ func didHitCache(row, col int) bool {
 	return didFind
 }
 
-func fetchNextCells(row, col int) []Cell {
-
-	nextCells := []Cell{}
-
-	// Go top
-	if row-1 >= 0 {
-		nextCells = append(nextCells, Cell{row - 1, col})
+func dynamicProgramming(m, n int) int {
+	if didHitCache(m, n) {
+		return cache[Cell{m, n}]
+	} else if m == 1 && n == 1 {
+		return 1
+	} else if m == 0 || n == 0 {
+		return 0
+	} else {
+		left := dynamicProgramming(m-1, n)
+		right := dynamicProgramming(m, n-1)
+		cache[Cell{m, n}] = left + right
+		return cache[Cell{m, n}]
 	}
-
-	if col-1 >= 0 {
-		nextCells = append(nextCells, Cell{row, col - 1})
-	}
-
-	return nextCells
-}
-
-func dynamicProgramming(row, col, path int) {
-
-	path++
-
-	if didHitCache(row, col) {
-		return
-	}
-
-	nextCells := fetchNextCells(row, col)
-
-	if len(nextCells) == 0 {
-		fmt.Println("pathLen: ", path)
-		fmt.Printf("Row: %v and Col: %v", row, col)
-		cache[Cell{row, col}] = path
-		return
-	}
-
-	for i := 0; i < len(nextCells); i++ {
-		dynamicProgramming(nextCells[i].x, nextCells[i].y, path)
-	}
-
 }
 
 func uniquePaths(m int, n int) int {
 	cache = map[Cell]int{}
-	dynamicProgramming(3, 7, 0)
-	fmt.Println(cache)
-	return 0
+	return dynamicProgramming(m, n)
 }
 
 func main() {
-	ans := uniquePaths(3, 7)
+	ans := uniquePaths(35, 35)
 	fmt.Println(ans)
 }
