@@ -35,3 +35,45 @@ class Solution:
                     dfs(i,j,True)
 
         return self.result
+
+
+
+# Another Apporach - POST NYU ADMIT :D 
+
+class Solution:
+
+    isEnclave = True
+    result = 0
+
+    def numEnclaves(self, grid: List[List[int]]) -> int:
+
+        directions = [[0,1],[1,0],[0,-1],[-1,0]]
+        rows, cols = len(grid),len(grid[0])
+        internalSet = set()
+        externalSet = set()
+
+        def dfs(r,c):
+            
+            internalSet.add((r,c))
+            externalSet.add((r,c))
+
+            for (dr,dc) in directions: 
+                if r+dr >= rows or r+dr < 0 or c+dc <0 or c+dc >= cols:
+                    self.isEnclave = False
+
+                if r+dr in range(rows) and \
+                    c+dc in range(cols) and \
+                    grid[r+dr][c+dc] == 1 and \
+                    (r+dr,c+dc) not in internalSet:
+                    dfs(r+dr,c+dc)
+
+        for r in range(rows):
+            for c in range(cols):
+                self.isEnclave = True
+                if (r,c) not in externalSet and grid[r][c] == 1:
+                    internalSet = set()
+                    dfs(r,c)
+                    if self.isEnclave == True:
+                        self.result += len(internalSet)
+
+        return self.result
