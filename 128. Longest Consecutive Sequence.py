@@ -25,3 +25,26 @@ class Solution:
 
         return result
         
+
+# Solution using Heap
+class Solution:
+    def longestConsecutive(self, nums: List[int]) -> int:
+
+        hashset = set()
+        result = 0
+
+        for num in nums:
+            hashset.add(num)
+
+        def getSeq(num,cur):
+            if num in hashset:
+                cur += 1
+                return getSeq(num+1,cur)
+            else:
+                return cur
+
+        for num in nums:
+            if num-1 not in hashset: 
+                result = max(result,getSeq(num,0))
+                
+        return result
