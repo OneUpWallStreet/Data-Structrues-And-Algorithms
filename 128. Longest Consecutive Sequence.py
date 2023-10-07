@@ -1,4 +1,5 @@
 import heapq
+from typing import List
 
 class Solution:
     def longestConsecutive(self, nums: List[int]) -> int:
@@ -25,10 +26,43 @@ class Solution:
 
         return result
         
+    def longestConsecutive2023Solution(self, nums: List[int]) -> int:
+        
+        if len(nums) == 0: return 0
+
+        result = 0
+
+        hs = set()
+        heapq.heapify(nums)
+
+        for num in nums: hs.add(num)
+
+        def findSmallest() -> int:
+            cur = heapq.heappop(nums)
+            # Because we don't want used values
+            while cur not in hs:
+                cur = heapq.heappop(nums)
+            return cur
+        
+        sm = findSmallest()
+        cur = 0
+
+        while hs:
+            
+            if sm in hs:
+                cur += 1
+                result = max(cur,result)
+                hs.remove(sm)
+                sm += 1
+            else:
+                sm = findSmallest()
+                cur = 0
+                continue
+            
+        return result
 
 # Solution using Heap
-class Solution:
-    def longestConsecutive(self, nums: List[int]) -> int:
+    def longestConsecutiveHeap2022(self, nums: List[int]) -> int:
 
         hashset = set()
         result = 0
