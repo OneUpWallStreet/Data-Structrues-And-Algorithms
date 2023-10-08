@@ -1,25 +1,14 @@
-import collections
-
 class Solution:
     def backspaceCompare(self, s: str, t: str) -> bool:
-        
-        sStack = collections.deque()
-        tStack = collections.deque()
-        
-        for c in s:
-            if c == "#":
-                if len(sStack) > 0:
-                    sStack.pop()
-            else:
-                sStack.append(c)
+        def createNewString(stri):
+            stack = collections.deque()
+            for ch in stri:
+                if ch == "#":
+                    if stack: stack.pop()
+                else:
+                    stack.append(ch)
+            return stack
+        return createNewString(s) == createNewString(t)
+ 
 
-                
-        for c in t:
-            if c == "#":
-                if len(tStack) > 0:
-                    tStack.pop()
-            else:
-                tStack.append(c)
 
-        
-        return sStack == tStack
