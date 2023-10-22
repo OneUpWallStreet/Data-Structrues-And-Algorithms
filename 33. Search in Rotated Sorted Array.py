@@ -31,3 +31,37 @@ class Solution:
             return -1
         
         return bs(0,len(nums)-1)
+    
+    # Solved this by building on top of the problem -> 153. Find Minimum in Rotated Sorted Array
+    def searchCustom(self, nums: List[int], target: int) -> int:
+        
+
+        l, r, pivotIndex = 0, len(nums) - 1, -1
+
+        def bs(l, r):
+            if l <= r:
+                mid = l + (r-l) // 2
+                if nums[mid] == target: return mid
+                elif nums[mid] < target: return bs(mid+1,r)
+                else: return bs(l,mid-1)
+            return -1
+            
+
+        while l <= r:
+            mid = l + (r-l) // 2
+            if mid + 1 < len(nums) and nums[mid+1] < nums[mid]:
+                pivotIndex = mid+1
+                break
+            elif mid + 1 < len(nums) and nums[mid] < nums[mid+1] and nums[mid-1] > nums[mid]:
+                pivotIndex = mid
+                break
+
+            if nums[mid] < nums[r]: r = mid - 1
+            else:  l = mid + 1
+
+        if pivotIndex == -1 or pivotIndex == 0: return bs(0,len(nums) - 1)
+        else:
+            if nums[len(nums)-1] >= target:
+                return bs(pivotIndex,len(nums)-1)
+            else: return bs(0,pivotIndex)
+
