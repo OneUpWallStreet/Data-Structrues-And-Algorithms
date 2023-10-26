@@ -4,25 +4,21 @@ class Solution:
         Do not return anything, modify nums in-place instead.
         """
         
-        # No idea why this works?
-        # This is constant memory solution
-        # Coded it on my own, but it's not intuitive at all 
-        nums.reverse()
         k = k % len(nums)
 
-        def reverse(p1,p2):
-            while p1 < p2:
-                temp = nums[p1]
-                nums[p1] = nums[p2]
-                nums[p2] = temp
-                p1 += 1
-                p2 -= 1
+        def reverseArr(l,r):
+            while l < r:
+                temp = nums[l] 
+                nums[l] = nums[r]
+                nums[r] = temp
+                l += 1
+                r -= 1
         
-        p1, p2 = 0, k-1
-        reverse(p1,p2)
+        reverseArr(0,len(nums)-1)
 
-        p1, p2 = k, len(nums)-1
-        reverse(p1,p2)
+        reverseArr(0,k-1)
+        reverseArr(k,len(nums)-1)
+
 
     def rotateLinearMemorySolution(self, nums: List[int], k: int) -> None:
         """
