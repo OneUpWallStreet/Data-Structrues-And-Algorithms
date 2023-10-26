@@ -20,3 +20,18 @@ class Solution:
                     return bs(l,mid-1)
                 else: return bs(mid+1,r)
         return bs(0, len(nums)-1)
+    
+    # This is the better code imo
+    def findMinNew(self, nums: List[int]) -> int:
+        result = float('inf')
+        def bs(l,r):
+            nonlocal result
+            if l <= r:
+                mid = l + (r-l) // 2
+                print(mid)
+                result = min(result,nums[mid])
+                if nums[mid] > nums[r]: bs(mid+1,r)
+                else: bs(l,mid-1)
+
+        bs(0,len(nums)-1)        
+        return result
