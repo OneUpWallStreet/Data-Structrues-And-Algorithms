@@ -18,3 +18,19 @@ class Solution:
         
         dfs(root)
         return arr[k-1]
+
+    def kthSmallestIterative(self, root: Optional[TreeNode], k: int) -> int:
+        
+        s = collections.deque()
+        cur = root
+
+        while s or cur:
+
+            while cur:
+                s.append(cur)
+                cur = cur.left
+            
+            cur = s.pop()
+            k -= 1
+            if k == 0: return cur.val
+            cur = cur.right
