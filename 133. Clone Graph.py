@@ -6,6 +6,19 @@ class Node:
 
 from typing import Optional
 class Solution:
+
+    # This is leetcodes solution. I think it's better. 
+    def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
+        hm = dict()
+        def clone(node):
+            if node in hm: return hm[node]
+            copy = Node(node.val)
+            hm[node] = copy
+            for nextNode in node.neighbors: 
+                copy.neighbors.append(clone(nextNode))
+            return copy
+        return clone(node) if node != None else None
+
     def cloneGraph(self, node: Optional['Node']) -> Optional['Node']:
         
         if node == None: return None
