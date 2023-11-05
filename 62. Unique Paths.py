@@ -1,11 +1,17 @@
 class Solution:
-    cache =dict()
     def uniquePaths(self, m: int, n: int) -> int:
-        if (m,n) in self.cache:
-            return self.cache[(m,n)]
-        elif m == 0 or n == 0:
-            return 0
-        elif (m,n) == (1,1):
-            return 1
-        self.cache[(m,n)] = self.uniquePaths(m-1,n) + self.uniquePaths(m,n-1)
-        return self.cache[(m,n)]
+        
+        cache = dict()
+        if m == 1 and n == 1: return 1
+
+        def dfs(r,c):
+            if (r,c) in cache: return cache[(r,c)]
+            elif r == (m-1) and c == (n-1): return 0
+            elif r == (m-2) and c == (n-1): return 1
+            elif r > m or c > n or r < 0 or c < 0: return 0
+            elif r == (m-1) and c == (n-2): return 1
+            elif (r,c) in cache: return cache[(r,c)]
+            cache[(r,c)] = dfs(r+1,c) + dfs(r,c+1)
+            return cache[(r,c)]
+
+        return dfs(0,0)
