@@ -1,40 +1,34 @@
-from typing import List
 import collections
+from typing import List
 
 class Solution:
     def orangesRotting(self, grid: List[List[int]]) -> int:
 
-        rows = len(grid)
-        cols = len(grid[0])
-
+        
+        freshOranges = 0
         q = collections.deque()
-        directions = [[1, 0], [-1, 0], [0, 1], [0, -1]]
+        directions = [[0,1],[1,0],[-1,0],[0,-1]]
+        rows, cols = len(grid), len(grid[0])
+        timestep = 0
 
-        for i in range(0, rows):
-            for j in range(0, cols):
-                if grid[i][j] == 2:
-                    q.append((i, j))
+        for r in range(rows):
+            for c in range(cols):
+                if grid[r][c] == 1: freshOranges += 1
+                elif grid[r][c] == 2: q.append((r,c))
 
-        time = 0
+        if freshOranges == 0: return 0 
 
         while q:
-            # Loop through the first minute
-            for i in range(len(q)):
-                r, c = q.popleft()
+
+            for _ in range(len(q)):
+                
+                r,c = q.popleft()
+
                 for dr, dc in directions:
-                    if (r + dr) in range(rows) and (c + dc) in range(cols) and grid[r + dr][c + dc] == 1:
+                    if r + dr in range(rows) and c+dc in range(cols) and grid[r+dr][c+dc]== 1: 
+                        q.append((r+dr,c+dc))
                         grid[r+dr][c+dc] = 2
-                        q.append((r + dr, c + dc))
+                        freshOranges -= 1
+            timestep += 1
 
-            time += 1
-
-        # Check if fresh oranges are left
-        for batch in grid:
-            for orange in batch:
-                if orange == 1:
-                    return -1
-
-        if time > 0:
-            return time - 1
-        else:
-            return time
+        return timestep-1 if freshOranges == 0 else -1
