@@ -21,4 +21,22 @@ class Solution:
             while fz < len(nums) and nums[fz] != 0: fz += 1
             while nz < len(nums) and nums[nz] == 0: nz += 1
 
+    def neetcodeMoveZeroes(self, nums: List[int]) -> None:
+        """
+        Do not return anything, modify nums in-place instead.
+        """
+        
+        l = r = 0
+
+        while r < len(nums):
+            
+            if nums[r] != 0:
+                temp = nums[l]
+                nums[l] = nums[r]
+                nums[r] = temp
+                l += 1
+
+            r += 1
+            
+
     
