@@ -1,3 +1,5 @@
+from typing import List
+
 class Solution:
     def search(self, nums: List[int], target: int) -> int:
         
@@ -65,3 +67,32 @@ class Solution:
                 return bs(pivotIndex,len(nums)-1)
             else: return bs(0,pivotIndex)
 
+
+
+    # This is the best solution according to me lol
+    def BetterSolutionsearch(self, nums: List[int], target: int) -> int:
+        
+        pi = 0
+        minNumber = float('inf')
+        l, r = 0, len(nums)-1
+
+        while l <= r:
+            mid = l + (r-l) // 2
+            if nums[mid] < minNumber: 
+                minNumber = nums[mid]
+                pi = mid
+            if nums[mid] > nums[r]: l = mid + 1
+            else: r = mid - 1
+
+        def bs(l,r):
+            if l <= r:
+                mid = l + (r-l) // 2
+                if nums[mid] == target: return mid
+                elif nums[mid] < target: return bs(mid+1,r)
+                else: return bs(l,mid-1)
+            return -1
+
+        if pi == 0: return bs(0,len(nums)-1)
+
+        if target >= nums[pi] and target <= nums[len(nums)-1]: return bs(pi,len(nums)-1)
+        else: return bs(0,pi)
