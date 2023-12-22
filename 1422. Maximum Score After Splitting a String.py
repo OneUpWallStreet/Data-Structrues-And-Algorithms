@@ -15,3 +15,20 @@ class Solution:
                 result = max(result, count("0",s[:j]) + count("1",s[j:]))
         
         return result
+    
+
+#  1 pass Neetcode soln
+    def maxScore(self, s: str) -> int:
+        
+        ones = s.count("1")
+        zeros = 0
+        result = float('-inf')
+
+        for i in range(len(s)-1):
+            if s[i] == "0": zeros += 1
+            else: 
+                ones -= 1
+            result = max(result, ones + zeros)
+        
+
+        return result
