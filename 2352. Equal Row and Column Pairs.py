@@ -18,3 +18,31 @@ class Solution:
                 result += rowHashMap[colStr]
         
         return result
+
+    # Came up with it but no hashing 
+    def bruteForceSolnequalPairs(self, grid: List[List[int]]) -> int:
+        
+        result = 0
+
+
+        rows, cols = len(grid), len(grid[0])
+
+        def check(r,c):
+            rArr = []
+            cArr = []
+
+            for i in range(rows):
+                cArr.append(grid[i][c])
+            for i in range(len(grid[r])):
+                rArr.append(grid[r][i])
+
+            return rArr == cArr
+
+
+        for r in range(rows):
+            for c in range(cols):
+                if check(r,c): result += 1
+
+
+
+        return result
