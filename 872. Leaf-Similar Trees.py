@@ -4,30 +4,22 @@ class TreeNode:
         self.val = val
         self.left = left
         self.right = right
-        
+
 class Solution:
     def leafSimilar(self, root1: Optional[TreeNode], root2: Optional[TreeNode]) -> bool:
-
-
-        def dfs(node,array):
-            if node == None:
-                return
-            elif node.left == None and node.right == None:
-                array.append(node.val)
-            dfs(node.left,array)
-            dfs(node.right,array)
-
-        arr1 = []
-        arr2 = []
-
-        dfs(root1,arr1)
-        dfs(root2,arr2)
         
-        if len(arr1) != len(arr2):
-            return False
+        t1, t2 = [], []
+
+        def dfs(node, first):
+            
+            if node == None: return
+            elif node.left == None and node.right == None: 
+                if first: t1.append(node.val)
+                else: t2.append(node.val)
+            dfs(node.left,first)
+            dfs(node.right,first)
         
-        for index in range(len(arr1)):
-            if arr1[index] != arr2[index]:
-                return False
-                
-        return True
+        dfs(root1,True)
+        dfs(root2,False)
+
+        return t1 == t2
