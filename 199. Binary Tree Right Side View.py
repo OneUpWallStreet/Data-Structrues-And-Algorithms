@@ -9,21 +9,24 @@ class TreeNode:
 class Solution:
 
     def BFSLevelOrderRightSideView(self, root: Optional[TreeNode]) -> List[int]:
-        if not root: return []
-        result = []
+        
+        levels = []
         q = collections.deque()
-        tree = []
+
         q.append(root)
         while q:
             level = []
-            for i in range(len(q)):
+            for _ in range(len(q)):
                 cur = q.popleft()
+                if not cur: continue
                 level.append(cur.val)
-                if cur.left: q.append(cur.left)
-                if cur.right: q.append(cur.right)
-            tree.append(level)
-        for level in tree: result.append(level[-1])
-        return result
+                q.append(cur.left)
+                q.append(cur.right)
+            if len(level) > 0: levels.append(level)
+
+        return [level[-1] for level in levels]
+
+
 
 
     def BetterDFSRightSideView(self, root: Optional[TreeNode]) -> List[int]:
