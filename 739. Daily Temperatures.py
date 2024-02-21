@@ -1,4 +1,23 @@
+from typing import List
+import collections
+
 class Solution:
+    
+    def dailyTemperaturesStack(self, temperatures: List[int]) -> List[int]:
+
+        result = [-1] * len(temperatures)
+        stack = collections.deque()
+
+        for i,temp in enumerate(temperatures):
+            if stack and stack[-1][0] > temp:  stack.append((temp,i))
+            else:
+                while stack and stack[-1][0] < temp:
+                    _, oldIndex = stack.pop()
+                    result[oldIndex] = i - oldIndex
+                stack.append((temp,i))
+        while stack: result[stack.pop()[1]] = 0
+        return result
+
     def dailyTemperatures(self, temperatures: List[int]) -> List[int]:
         
         hm = dict()
