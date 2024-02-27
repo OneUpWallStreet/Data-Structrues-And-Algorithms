@@ -7,25 +7,17 @@ class Solution:
         """
         Do not return anything, modify nums in-place instead.
         """
-        
+    
         bucket = [0,0,0]
 
         for num in nums: bucket[num] += 1
-
-        print(bucket)
-
-        bi = 0
         index = 0
+        for i in range(3):
+            for j in range(bucket[i]):
+                nums[index] = i
+                index += 1
+            
         
-        while index < len(nums):
-            if bucket[bi] > 0:
-                bucket[bi] -= 1
-                nums[index] = bi
-            else:
-                bi += 1
-                continue 
-    
-            index += 1
 
     def sortColors(self, nums: List[int]) -> None:
         
