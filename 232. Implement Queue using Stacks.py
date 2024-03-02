@@ -1,30 +1,16 @@
-import collections
-
 class MyQueue:
-
-    def __init__(self):
-        self.s1, self.s2 = collections.deque(), collections.deque()
-        
-
+    def __init__(self): self.s1, self.s2 = collections.deque(), collections.deque()
     def push(self, x: int) -> None: self.s1.append(x)
+    def s1Tos2(self,remove: bool) -> int:        
+        while len(self.s1) > 1: self.s2.append(self.s1.pop())
+        val = self.s1.pop()
+        if not remove: self.s2.append(val)
+        while self.s2: self.s1.append(self.s2.pop())
+        return val
+    def pop(self) -> int: return self.s1Tos2(True)
+    def peek(self) -> int: return self.s1Tos2(False)
+    def empty(self) -> bool: return len(self.s1) == 0
         
-
-    def pop(self) -> int:
-        self.s2.clear()
-        while len(self.s1) > 1: self.s2.append(self.s1.pop())
-        result = self.s1.pop()
-        while self.s2: self.s1.append(self.s2.pop())
-        return result
-
-    def peek(self) -> int:
-        self.s2.clear()
-        while len(self.s1) > 1: self.s2.append(self.s1.pop())
-        result = self.s1.pop()
-        self.s2.append(result)
-        while self.s2: self.s1.append(self.s2.pop())
-        return result
-
-    def empty(self) -> bool: return not self.s1
         
 
 
