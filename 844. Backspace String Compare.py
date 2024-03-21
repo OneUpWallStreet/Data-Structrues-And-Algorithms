@@ -1,14 +1,9 @@
 class Solution:
     def backspaceCompare(self, s: str, t: str) -> bool:
-        def createNewString(stri):
-            stack = collections.deque()
-            for ch in stri:
-                if ch == "#":
-                    if stack: stack.pop()
-                else:
-                    stack.append(ch)
-            return stack
-        return createNewString(s) == createNewString(t)
- 
-
-
+        def back(val: str):
+            s = collections.deque()
+            for ch in val:
+                if ch != "#": s.append(ch)
+                elif s: s.pop()
+            return "".join(s)
+        return back(s) == back(t)
