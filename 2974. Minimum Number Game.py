@@ -1,13 +1,10 @@
 class Solution:
     def numberGame(self, nums: List[int]) -> List[int]:
-        
-        nums.sort()
+        heapq.heapify(nums)
         arr = []
-        l, r = 0, 1
-
-        while r < len(nums):
-            arr.append(nums[r])
-            arr.append(nums[l])
-            l += 2
-            r += 2
+        while nums:
+            a = heapq.heappop(nums)
+            b = heapq.heappop(nums)
+            arr.append(b)
+            arr.append(a)
         return arr
